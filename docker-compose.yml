@@ -3,6 +3,7 @@ version: '3.8'
 services:
   prediction-service:
     build: ./prediction-service
+    restart: unless-stopped
     ports:
       - "4001:4001"
     networks:

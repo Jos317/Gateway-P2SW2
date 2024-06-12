@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/federation": "^0.38.1",
     "apollo-server": "^3.13.0",
+    "apollo-datasource-rest": "^0.13.0",
     "graphql": "^16.8.1",
     "node-fetch": "^3.3.2"
   }
