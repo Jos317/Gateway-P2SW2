@@ -3,26 +3,7 @@ const { ApolloServer, gql } = require('apollo-server');
 const { RESTDataSource } = require('apollo-datasource-rest');
 const { buildFederatedSchema } = require('@apollo/federation');
 
-class ApiService extends RESTDataSource {
-  constructor() {
-    super();
-    this.baseURL = 'http://82.197.67.22:8080/api/';
-  }
-
-  async getAll() {
-    return this.get('getall');
-  }
-}
-
 const typeDefs = gql`
-  type ApiData {
-    id: Int
-    concepto: String
-    monto: Float
-    fecha: String
-    usuario: Int
-  }
-
   type Data {
     year: Int
     month: Int
@@ -42,7 +23,6 @@ const typeDefs = gql`
   extend type Query {
     predictBetweenDatesWithMonths(startDate: String!, numberOfMonths: Int!): PredictBetweenDatesWithMonths
     detectAnomalies: DetectAnomalies
-    getAll: [ApiData]
   }
 `;
 
@@ -100,17 +80,11 @@ const resolvers = {
       const result = await response.json();
       return result.data.detectAnomalies;
     },
-    getAll: async (_, __, { dataSources }) => {
-      return dataSources.apiService.getAll();
-    },
   },
 };
 
 const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
-  dataSources: () => ({
-    apiService: new ApiService(),
-  }),
+  schema: buildFederatedSchema([{ typeDefs, resolvers }])
 });
 
 server.listen({ port: 4001 }).then(({ url }) => {
