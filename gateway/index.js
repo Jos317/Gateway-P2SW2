@@ -5,6 +5,7 @@ const gateway = new ApolloGateway({
     supergraphSdl: new IntrospectAndCompose({
         subgraphs: [
             { name: 'predictions', url: 'http://prediction-service:4001' },
+            { name: 'dashboard', url: 'http://dashboard-service:4002' },
         ],
     }),
 });

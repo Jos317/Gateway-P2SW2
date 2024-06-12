@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  dashboard-service:
+    build: ./dashboard-service
+    restart: unless-stopped
+    ports:
+      - "4002:4002"
+    networks:
+      - gateway-network
+
   prediction-service:
     build: ./prediction-service
     restart: unless-stopped
@@ -15,6 +23,7 @@ services:
       - "4000:4000"
     depends_on:
       - prediction-service
+      - dashboard-service
     networks:
       - gateway-network
 
